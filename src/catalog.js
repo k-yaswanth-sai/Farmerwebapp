@@ -6,7 +6,7 @@ export const CATALOG = [
     "category": "Vegetables",
     "unit": "kg",
     "price": 40,
-    "image": "tomato.svg",
+    "image": "tomato.jpg",
     "description": "Fresh tomato directly from the farm"
   },
   {
