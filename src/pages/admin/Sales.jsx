@@ -21,11 +21,18 @@ export default function Sales() {
 
     window.addEventListener('localDataUpdated', refreshOrders);
     window.addEventListener('storage', handleStorage);
+    const pollingTimer = window.setInterval(refreshOrders, 1000);
     return () => {
       window.removeEventListener('localDataUpdated', refreshOrders);
       window.removeEventListener('storage', handleStorage);
+      window.clearInterval(pollingTimer);
     };
   }, []);
+
+  const refreshOrders = () => {
+    const storedOrders = read('orders', []);
+    setOrders(Array.isArray(storedOrders) ? storedOrders : []);
+  };
   const byProduct = {};
   orders.forEach((o) =>
     o.items.forEach((i) => {
@@ -39,6 +46,7 @@ export default function Sales() {
   return (
     <div className="page">
       <h2>Sales Tracking</h2>
+      <button type="button" onClick={refreshOrders}>Refresh Sales</button>
       <div className="stats">
         <div><b>{orders.length}</b><br />Orders</div>
         <div><b>₹{totalRevenue}</b><br />Total Revenue</div>

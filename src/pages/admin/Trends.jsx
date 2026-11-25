@@ -1,8 +1,40 @@
+import { useEffect, useState } from 'react';
 import { read } from '../../storage';
 import ChartBox from '../../components/ChartBox';
 
 export default function Trends() {
-  const orders = read('orders', []);
+  const [orders, setOrders] = useState(() => {
+    const storedOrders = read('orders', []);
+    return Array.isArray(storedOrders) ? storedOrders : [];
+  });
+
+  useEffect(() => {
+    const refreshOrders = (event) => {
+      if (!event.detail || event.detail.key === 'orders') {
+        const storedOrders = read('orders', []);
+        setOrders(Array.isArray(storedOrders) ? storedOrders : []);
+      }
+    };
+
+    const handleStorage = (event) => {
+      if (event.key === 'orders' || event.key === null) refreshOrders({});
+    };
+
+    window.addEventListener('localDataUpdated', refreshOrders);
+    window.addEventListener('storage', handleStorage);
+    const pollingTimer = window.setInterval(refreshOrders, 1000);
+    return () => {
+      window.removeEventListener('localDataUpdated', refreshOrders);
+      window.removeEventListener('storage', handleStorage);
+      window.clearInterval(pollingTimer);
+    };
+  }, []);
+
+  const refreshOrders = () => {
+    const storedOrders = read('orders', []);
+    setOrders(Array.isArray(storedOrders) ? storedOrders : []);
+  };
+
   const revenueByProduct = {}, demandByCategory = {}, revenueByDate = {};
 
   orders.forEach((o) => {
@@ -26,6 +58,8 @@ export default function Trends() {
     <div className="page">
       <h2>Market Trends</h2>
       <button onClick={exportJson}>Export Data (JSON)</button>
+      {' '}
+      <button type="button" onClick={refreshOrders}>Refresh Trends</button>
       {orders.length === 0 ? <p>No sales data yet. Charts appear once buyers place orders.</p> : (
         <div className="charts">
           <ChartBox type="bar" label="Revenue by Product (₹)" labels={Object.keys(revenueByProduct)} data={Object.values(revenueByProduct)} />
