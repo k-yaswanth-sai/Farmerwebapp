@@ -20,11 +20,11 @@ export function seed() {
     ]);
   }
   // Seed every catalog product as a listing (re-seeds once when the catalog version changes)
-  if (read('seedVersion', 0) !== 3) {
+  if (read('seedVersion', 0) !== 4) {
     write('products', CATALOG.map((c, i) => ({
       ...c, id: i + 1, quantity: 100, farmer: 'Admin Farmer',
     })));
-    write('seedVersion', 3);
+    write('seedVersion', 4);
   }
   if (!localStorage.getItem('orders')) write('orders', []);
 }
