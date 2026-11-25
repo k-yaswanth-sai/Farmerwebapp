@@ -1,7 +1,31 @@
+import { useEffect, useState } from 'react';
 import { read } from '../../storage';
 
 export default function Sales() {
-  const orders = read('orders', []);
+  const [orders, setOrders] = useState(() => {
+    const storedOrders = read('orders', []);
+    return Array.isArray(storedOrders) ? storedOrders : [];
+  });
+
+  useEffect(() => {
+    const refreshOrders = (event) => {
+      if (!event.detail || event.detail.key === 'orders') {
+        const storedOrders = read('orders', []);
+        setOrders(Array.isArray(storedOrders) ? storedOrders : []);
+      }
+    };
+
+    const handleStorage = (event) => {
+      if (event.key === 'orders' || event.key === null) refreshOrders({});
+    };
+
+    window.addEventListener('localDataUpdated', refreshOrders);
+    window.addEventListener('storage', handleStorage);
+    return () => {
+      window.removeEventListener('localDataUpdated', refreshOrders);
+      window.removeEventListener('storage', handleStorage);
+    };
+  }, []);
   const byProduct = {};
   orders.forEach((o) =>
     o.items.forEach((i) => {

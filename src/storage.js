@@ -8,7 +8,14 @@ export const read = (key, fallback) => {
     return fallback;
   }
 };
-export const write = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+export const write = (key, value) => {
+  localStorage.setItem(key, JSON.stringify(value));
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('localDataUpdated', {
+      detail: { key, value },
+    }));
+  }
+};
 
 export const CATEGORIES = ['Vegetables', 'Grains', 'Dairy', 'Fruits', 'Pulses'];
 
