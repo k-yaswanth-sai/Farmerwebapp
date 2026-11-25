@@ -13,7 +13,8 @@ export default function Signup() {
     e.preventDefault();
     if (!form.name.trim() || !form.email.trim() || !form.password) return setError('Please fill in all fields.');
     if (!/^\S+@\S+\.\S+$/.test(form.email)) return setError('Enter a valid email.');
-    if (form.password.length < 6) return setError('Password must be at least 6 characters.');
+    if (form.password.length < 8) return setError('Password must be at least 8 characters.');
+    if (!/[^A-Za-z0-9]/.test(form.password)) return setError('Password must contain at least one symbol.');
     const err = signup({ ...form, name: form.name.trim(), email: form.email.trim() });
     if (err) return setError(err);
     alert('Signup successful! Please login.');
@@ -27,7 +28,15 @@ export default function Signup() {
       <form onSubmit={submit}>
         <input placeholder="Full name" value={form.name} onChange={set('name')} />
         <input type="email" placeholder="Email" value={form.email} onChange={set('email')} />
-        <input type="password" placeholder="Password (min 6 chars)" value={form.password} onChange={set('password')} />
+        <input
+          type="password"
+          placeholder="Password (8 chars + symbol)"
+          value={form.password}
+          onChange={set('password')}
+          minLength={8}
+          pattern="(?=.*[^A-Za-z0-9]).{8,}"
+          title="Use at least 8 characters and one symbol"
+        />
         <select value={form.role} onChange={set('role')}>
           <option value="user">User (Buyer)</option>
           <option value="admin">Admin (Farmer)</option>

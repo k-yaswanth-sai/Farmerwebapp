@@ -8,6 +8,8 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => read('currentUser', null));
 
   const signup = ({ name, email, password, role }) => {
+    if (password.length < 8) return 'Password must be at least 8 characters.';
+    if (!/[^A-Za-z0-9]/.test(password)) return 'Password must contain at least one symbol.';
     const users = read('users', []);
     if (users.some((u) => u.email.toLowerCase() === email.toLowerCase()))
       return 'An account with this email already exists.';
