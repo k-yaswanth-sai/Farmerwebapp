@@ -8,7 +8,16 @@ import { BANNERS } from '../banners';
 export default function Home() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const products = read('products', []).slice(0, 8);
+
+  const rawProducts = read('products', []);
+  const products = (Array.isArray(rawProducts) ? rawProducts : [])
+    .slice()
+    .sort((a, b) => (a?.name ?? '').localeCompare(b?.name ?? '', undefined, { sensitivity: 'base' }))
+    .slice(0, 8);
+
+  const sortedCategories = (Array.isArray(CATEGORIES) ? CATEGORIES : [])
+    .slice()
+    .sort((a, b) => String(a).localeCompare(String(b), undefined, { sensitivity: 'base' }));
 
   const handleAdd = (p) => {
     if (!user) return navigate('/login');
@@ -21,23 +30,36 @@ export default function Home() {
     <>
       <section className="banner">
         <div className="slider">
-          {BANNERS.map((b) => <img key={b.file} src={`/images/banner/${b.file}`} alt={b.alt} />)}
+          {BANNERS.map((b) => (
+            <img key={b.file} src={`/images/banner/${b.file}`} alt={b.alt} />
+          ))}
         </div>
       </section>
 
       <div className="chips" style={{ justifyContent: 'center', marginTop: 20 }}>
-        {CATEGORIES.map((c) => (
-          <Link key={c} to={`/products?category=${c}`} className="chip">{c}</Link>
+        {sortedCategories.map((c) => (
+          <Link key={c} to={`/products?category=${encodeURIComponent(c)}`} className="chip">
+            {c}
+          </Link>
         ))}
       </div>
 
       <div className="section5">
-        {products.map((p) => <ProductCard key={p.id} p={p} onAdd={handleAdd} />)}
+        {products.map((p) => (
+          <ProductCard key={p.id} p={p} onAdd={handleAdd} />
+        ))}
       </div>
-      <div style={{ textAlign: 'center' }}><Link to="/products" className="morelink">View all products →</Link></div>
+      <div style={{ textAlign: 'center' }}>
+        <Link to="/products" className="morelink">
+          View all products →
+        </Link>
+      </div>
 
       <div className="section6">
-        <b>Today’s Offers</b><br /><br />20% off on organic produce
+        <b>Today’s Offers</b>
+        <br />
+        <br />
+        20% off on organic produce
       </div>
     </>
   );

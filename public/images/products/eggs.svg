@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" fill="#1e88e5"/><circle cx="200" cy="125" r="95" fill="#fff" fill-opacity=".85"/><text x="200" y="160" font-size="100" text-anchor="middle" font-family="Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif">🥚</text><text x="200" y="275" font-family="Arial" font-size="30" font-weight="bold" fill="#fff" text-anchor="middle">Eggs</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <rect width="180" height="180" rx="20" fill="#fff8dc"/>
+  <ellipse cx="58" cy="110" rx="30" ry="42" fill="#f7edd5" stroke="#d9c69b" stroke-width="4"/>
+  <ellipse cx="122" cy="110" rx="30" ry="42" fill="#f4e3b5" stroke="#d9c69b" stroke-width="4"/>
+  <ellipse cx="90" cy="64" rx="28" ry="38" fill="#f9f1dc" stroke="#d9c69b" stroke-width="4"/>
+  <ellipse cx="58" cy="102" rx="10" ry="16" fill="#fff" opacity=".7"/>
+  <ellipse cx="122" cy="102" rx="10" ry="16" fill="#fff" opacity=".55"/>
+  <ellipse cx="90" cy="57" rx="9" ry="14" fill="#fff" opacity=".7"/>
+</svg>
