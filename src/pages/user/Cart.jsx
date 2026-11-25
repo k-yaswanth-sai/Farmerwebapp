@@ -8,9 +8,20 @@ export default function Cart() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [cart, setCart] = useState(getCart(user.email));
+  const [delivery, setDelivery] = useState({
+    fullName: user.name || '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    pincode: '',
+  });
 
   const update = (next) => { setCart(next); saveCart(user.email, next); };
   const total = cart.reduce((s, c) => s + c.price * c.qty, 0);
+  const setDeliveryField = (field) => (event) => {
+    setDelivery((current) => ({ ...current, [field]: event.target.value }));
+  };
 
   const changeQty = (id, qty) => {
     const stock = read('products', []).find((p) => p.id === id)?.quantity ?? 0;
@@ -19,6 +30,17 @@ export default function Cart() {
   };
 
   const placeOrder = () => {
+    if (!delivery.fullName.trim() || !delivery.phone.trim() || !delivery.address.trim() ||
+      !delivery.city.trim() || !delivery.state.trim() || !delivery.pincode.trim()) {
+      return alert('Please fill in all delivery address fields.');
+    }
+    if (!/^\d{10}$/.test(delivery.phone.trim())) {
+      return alert('Please enter a valid 10-digit phone number.');
+    }
+    if (!/^\d{6}$/.test(delivery.pincode.trim())) {
+      return alert('Please enter a valid 6-digit pincode.');
+    }
+
     const products = read('products', []);
     for (const c of cart) {
       const p = products.find((x) => x.id === c.id);
@@ -33,6 +55,15 @@ export default function Cart() {
     write('orders', [...orders, {
       id: Date.now(), userEmail: user.email, userName: user.name,
       date: new Date().toISOString(), items: cart, total, status: 'Confirmed',
+      delivery: {
+        ...delivery,
+        fullName: delivery.fullName.trim(),
+        phone: delivery.phone.trim(),
+        address: delivery.address.trim(),
+        city: delivery.city.trim(),
+        state: delivery.state.trim(),
+        pincode: delivery.pincode.trim(),
+      },
     }]);
     update([]);
     alert('Order placed successfully!');
@@ -59,6 +90,47 @@ export default function Cart() {
             </tbody>
           </table>
           <h3>Total: ₹{total}</h3>
+          <div className="delivery-address">
+            <h3>Delivery Address</h3>
+            <div className="grid-form">
+              <input
+                placeholder="Full name"
+                value={delivery.fullName}
+                onChange={setDeliveryField('fullName')}
+              />
+              <input
+                type="tel"
+                inputMode="numeric"
+                maxLength="10"
+                placeholder="Phone number"
+                value={delivery.phone}
+                onChange={setDeliveryField('phone')}
+              />
+              <input
+                placeholder="House / street address"
+                value={delivery.address}
+                onChange={setDeliveryField('address')}
+              />
+              <input
+                placeholder="City"
+                value={delivery.city}
+                onChange={setDeliveryField('city')}
+              />
+              <input
+                placeholder="State"
+                value={delivery.state}
+                onChange={setDeliveryField('state')}
+              />
+              <input
+                type="tel"
+                inputMode="numeric"
+                maxLength="6"
+                placeholder="Pincode"
+                value={delivery.pincode}
+                onChange={setDeliveryField('pincode')}
+              />
+            </div>
+          </div>
           <button onClick={placeOrder}>Place Order</button>
         </>
       )}

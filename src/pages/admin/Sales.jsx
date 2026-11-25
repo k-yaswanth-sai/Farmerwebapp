@@ -31,14 +31,20 @@ export default function Sales() {
 
       <h3>Sales History (Buyer Details)</h3>
       <table>
-        <thead><tr><th>Date</th><th>Buyer</th><th>Email</th><th>Items</th><th>Total</th></tr></thead>
+        <thead><tr><th>Date</th><th>Buyer</th><th>Email</th><th>Delivery Address</th><th>Items</th><th>Total</th></tr></thead>
         <tbody>
           {[...orders].reverse().map((o) => (
             <tr key={o.id}>
               <td>{new Date(o.date).toLocaleString()}</td><td>{o.userName}</td><td>{o.userEmail}</td>
+              <td>
+                {o.delivery
+                  ? `${o.delivery.fullName}, ${o.delivery.phone}, ${o.delivery.address}, ${o.delivery.city}, ${o.delivery.state} - ${o.delivery.pincode}`
+                  : 'Not provided'}
+              </td>
               <td>{o.items.map((i) => `${i.name} ×${i.qty}`).join(', ')}</td><td>₹{o.total}</td>
             </tr>
           ))}
+          {!orders.length && <tr><td colSpan="6">No sales yet.</td></tr>}
         </tbody>
       </table>
     </div>

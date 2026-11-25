@@ -12,6 +12,16 @@ export default function Orders() {
           <b>Order #{o.id}</b> | {new Date(o.date).toLocaleString()} | {o.status}
           <ul>{o.items.map((i) => <li key={i.id}>{i.name} × {i.qty} = ₹{i.price * i.qty}</li>)}</ul>
           <b>Total: ₹{o.total}</b>
+          {o.delivery && (
+            <>
+              <br />
+              <b>Delivery Address:</b>
+              <div>
+                {o.delivery.fullName}, {o.delivery.phone}<br />
+                {o.delivery.address}, {o.delivery.city}, {o.delivery.state} - {o.delivery.pincode}
+              </div>
+            </>
+          )}
         </div>
       ))}
     </div>
