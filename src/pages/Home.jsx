@@ -23,7 +23,6 @@ export default function Home() {
     if (!user) return navigate('/login');
     if (user.role !== 'user') return alert('Only buyers (User role) can add to cart.');
     addToCart(user.email, p);
-    alert(`${p.name} added to cart`);
   };
 
   return (
