@@ -36,9 +36,9 @@ a:hover { text-decoration: underline; }
   100% { transform: translateX(0); }
 }
 
-.section5 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin: 20px; }
-.card { border: 1px solid black; border-radius: 15px; text-align: center; padding: 18px; background: white; color: black; min-height: 330px; }
-.card img { width: 180px; height: 180px; object-fit: contain; margin-bottom: 12px; }
+.section5 { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin: 20px; }
+.card { border: 1px solid black; border-radius: 15px; text-align: center; padding: 24px; background: white; color: black; min-height: 420px; }
+.card img { width: 220px; height: 220px; object-fit: cover; margin-bottom: 14px; }
 .emoji { font-size: 64px; }
 
 .section6 { background-color: lightblue; text-align: center; padding: 20px; }
@@ -78,7 +78,7 @@ th { background: green; color: white; }
 
 .imgfield { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px; border: 1px dashed green; padding: 10px; border-radius: 8px; }
 .imgfield img { border-radius: 8px; display: block; margin-bottom: 6px; }
-.card img { max-width: 100%; height: 120px; object-fit: cover; border-radius: 10px; }
+.card img { max-width: 100%; height: 220px; object-fit: cover; border-radius: 10px; }
 
 .chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
 .chip { background: white; color: green; border: 2px solid green; border-radius: 20px; padding: 6px 16px; cursor: pointer; text-decoration: none; font-size: 14px; }
