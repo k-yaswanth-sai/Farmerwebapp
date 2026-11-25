@@ -5,7 +5,7 @@ const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => read('currentUser', null));
+  const [user, setUser] = useState(null);
 
   const signup = ({ name, email, password, role }) => {
     if (password.length < 8) return 'Password must be at least 8 characters.';

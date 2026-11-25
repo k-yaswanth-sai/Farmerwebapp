@@ -7,6 +7,7 @@ import { seed } from './storage';
 import './styles.css';
 
 seed();
+localStorage.removeItem('currentUser');
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
