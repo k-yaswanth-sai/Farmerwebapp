@@ -36,9 +36,9 @@ a:hover { text-decoration: underline; }
   100% { transform: translateX(0); }
 }
 
-.section5 { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin: 20px; }
-.card { border: 1px solid black; border-radius: 15px; text-align: center; padding: 10px; background: white; color: black; }
-.card img { width: 120px; margin-bottom: 10px; }
+.section5 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin: 20px; }
+.card { border: 1px solid black; border-radius: 15px; text-align: center; padding: 18px; background: white; color: black; min-height: 330px; }
+.card img { width: 180px; height: 180px; object-fit: contain; margin-bottom: 12px; }
 .emoji { font-size: 64px; }
 
 .section6 { background-color: lightblue; text-align: center; padding: 20px; }
